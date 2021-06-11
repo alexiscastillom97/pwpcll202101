@@ -1,18 +1,22 @@
 #!/usr/bin/env node
 
+import winston from '@server/config/winston';
+
 /**
  * Module dependencies.
  */
+import Debug from 'debug';
+import app from '../app';
+import http from 'http';
 
-var app = require('../app');
-var debug = require('debug')('projnotes:server');
-var http = require('http');
+const debug = require('debug')('projnotes:server');
+//let http = require('http');
 
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
+const port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
 /**
@@ -65,11 +69,11 @@ function onError(error) {
     // handle specific listen errors with friendly messages
     switch (error.code) {
         case 'EACCES':
-            console.error(bind + ' requires elevated privileges');
+            winston.error(`${bind} requires elevated privileges`);
             process.exit(1);
             break;
         case 'EADDRINUSE':
-            console.error(bind + ' is already in use');
+            winston.error(`${bind} is alredy in use`);
             process.exit(1);
             break;
         default:
